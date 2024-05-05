@@ -1,0 +1,49 @@
+{
+  "type": "module",
+  "name": "@lionrockjs/start",
+  "version": "0.0.1",
+  "description": "The LionRockJS ORM database code generator and site structure generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules ../../../node_modules/jest/bin/jest.js --coverage"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {},
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)",
+      "**/?(*.)+(spec|test).mjs"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "mjs"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LionRockJS/start.git"
+  },
+  "author": "Kojin Nakana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LionRockJS/start/issues"
+  },
+  "homepage": "https://github.com/LionRockJS/start#readme",
+  "bin": {
+    "kohanajs-web": "./bin/web.mjs",
+    "kohanajs-webform": "./bin/webform.mjs",
+    "kohanajs-admin": "./bin/admin.mjs",
+    "kohanajs-admin-cms": "./bin/admin-cms.mjs",
+    "kohanajs-module": "./bin/module.mjs",
+    "kohanajs-admin-schema": "./bin/admin-schema.mjs"
+  },
+  "dependencies": {
+    "mkdirp": "^2.1.5",
+    "ncp": "^2.0.0",
+    "graphql-to-sqlite-ddl": "^2.0.4",
+    "@lionrockjs/graphql-to-orm": "^0.0.1"
+  },
+  "dev-dependencies": {}
+}

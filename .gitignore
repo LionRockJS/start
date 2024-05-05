@@ -1,0 +1,5 @@
+belongsTo.sqlite
+belongsToMany.sqlite
+db.sqlite
+coverage
+/tests/test/
