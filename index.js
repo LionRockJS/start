@@ -1,6 +1,7 @@
-import { build } from './build.mjs';
+import build from './build.mjs';
+import scaffold from './scaffold.mjs';
 
-module.exports = {
-  build: require('./build'),
-  scaffold: require('./scaffold'),
+export {
+  build,
+  scaffold,
 };

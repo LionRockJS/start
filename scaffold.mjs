@@ -2,7 +2,7 @@ import url from "node:url";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
 
 import path from 'node:path';
-import mkdirp from 'mkdirp';
+import {mkdirp} from 'mkdirp';
 import ncp from 'ncp';
 import note from './install-note.mjs';
 

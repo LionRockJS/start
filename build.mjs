@@ -1,10 +1,14 @@
+import url from "node:url";
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
+
 import pluralize from 'pluralize';
 import DateBase from 'better-sqlite3';
 import { buildSchema } from 'graphql';
 import fs from 'node:fs';
 import {mkdirp} from 'mkdirp';
 import path from 'node:path';
-import { parse, insert, schemaHeader } from 'graphql-to-sqlite-ddl';
+import graphqlSQL from 'graphql-to-sqlite-ddl';
+const { parse, insert, schemaHeader } = graphqlSQL;
 import { codeGen } from '@kohanajs/graphql-to-orm';
 
 const readFileOptions = { encoding: 'utf8', flag: 'r' };
@@ -14,8 +18,9 @@ export default async function build(GraphQL_Path, SamplePath, SQL_Path, DB_Path,
   await mkdirp(path.dirname(SQL_Path));
   await mkdirp(path.dirname(DB_Path));
   await mkdirp(path.normalize(classPath));
-  let schema; let sql; let
-    db;
+  let schema;
+  let sql;
+  let db;
 
   try {
     const typeDef = fs.readFileSync(GraphQL_Path, readFileOptions);
@@ -45,8 +50,8 @@ export default async function build(GraphQL_Path, SamplePath, SQL_Path, DB_Path,
 
   try {
     if (SamplePath !== '') {
-      const samples = require(SamplePath);
-      const inserts = insert(samples);
+      const samples = await import(SamplePath);
+      const inserts = insert(samples.default || samples);
       db.exec(inserts);
     }
   } catch (e) {

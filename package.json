@@ -40,10 +40,10 @@
     "kohanajs-admin-schema": "./bin/admin-schema.mjs"
   },
   "dependencies": {
-    "mkdirp": "^2.1.5",
+    "mkdirp": "^3.0.1",
     "ncp": "^2.0.0",
     "graphql-to-sqlite-ddl": "^2.0.4",
-    "@lionrockjs/graphql-to-orm": "^0.0.1"
+    "snake-case": "^4.0.0"
   },
   "dev-dependencies": {}
 }

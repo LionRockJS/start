@@ -23,7 +23,7 @@ const print_cms = function(){
   console.log('cp -r ./node_modules/tinymce ../../../public/media/vendors/tinymce')
 }
 
-module.exports = {
+export default {
   print,
   print_cms
 }
