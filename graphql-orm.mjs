@@ -141,9 +141,9 @@ ${Array.from(hasMany).map(x => `    ["${x[0]}", "${x[1]}"]`).join(',\n')}
 ${Array.from(belongsToMany).map(x => `    "${x}"`).join(',\n')}
   ]);`;
 
-  return `const {ORM} = require('kohanajs');
+  return `import {Model} from "@lionrockjs/central";
 
-class ${className} extends ORM{
+export default class ${className} extends Model{
 ${Array.from(belongsTo.keys())
     .map(x => `  ${x} = ${belongsToDefaultValue.get(x) || 'null'};`)
     .join('\n')}${(Array.from(belongsTo.keys()).length > 0) ? '\n' : ''}${
@@ -154,8 +154,6 @@ ${Array.from(belongsTo.keys())
   static tableName = '${tableName}';
 ${codeFields}${codeBelongsTo}${codeHasMany}${codeBelongsToMany}
 }
-
-module.exports = ${className};
 `;
 };
 
