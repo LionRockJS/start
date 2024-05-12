@@ -141,7 +141,7 @@ ${Array.from(hasMany).map(x => `    ["${x[0]}", "${x[1]}"]`).join(',\n')}
 ${Array.from(belongsToMany).map(x => `    "${x}"`).join(',\n')}
   ]);`;
 
-  return `import {Model} from "@lionrockjs/central";
+  return `import { Model } from '@lionrockjs/central';
 
 export default class ${className} extends Model{
 ${Array.from(belongsTo.keys())
@@ -182,6 +182,4 @@ const codeGen = schema => {
   return codes;
 };
 
-export default {
-  codeGen
-};
+export default codeGen;

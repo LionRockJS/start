@@ -9,12 +9,27 @@ import {mkdirp} from 'mkdirp';
 import path from 'node:path';
 import graphqlSQL from 'graphql-to-sqlite-ddl';
 const { parse, insert, schemaHeader } = graphqlSQL;
-import { codeGen } from '@kohanajs/graphql-to-orm';
+import codeGen from './graphql-orm.mjs';
 
 const readFileOptions = { encoding: 'utf8', flag: 'r' };
 const interfaces = fs.readFileSync(`${__dirname}/GraphQL/_interfaces.graphql`, readFileOptions);
 
-export default async function build(GraphQL_Path, SamplePath, SQL_Path, DB_Path, classPath, wal = false) {
+export default async function build(dirname, entity, database, databaseSubFolder="", isImportData=false, wal=false){
+  const defaultDatabasePath = `${dirname}/../../default${databaseSubFolder? `/${databaseSubFolder}` : ''}`;
+  const modelPath = path.normalize(`${dirname}/../exports/${entity}/model`);
+  const exportPath = `${dirname}/../exports/${entity}`;
+
+  await buildCore(
+    `${dirname}/${database}.graphql`,
+    ((isImportData) ? `${dirname}/${database}.mjs` : ""),
+    `${exportPath}/${database}.sql`,
+    `${defaultDatabasePath}/${database}.sqlite`,
+    path.normalize(`${modelPath}`),
+    wal
+  )
+}
+
+async function buildCore(GraphQL_Path, SamplePath, SQL_Path, DB_Path, classPath, wal = false) {
   await mkdirp(path.dirname(SQL_Path));
   await mkdirp(path.dirname(DB_Path));
   await mkdirp(path.normalize(classPath));
@@ -63,7 +78,7 @@ export default async function build(GraphQL_Path, SamplePath, SQL_Path, DB_Path,
   try {
     const classes = codeGen(schema);
     classes.forEach((v, k) => {
-      const targetPath = `${classPath}/${pluralize.singular(k)}.js`;
+      const targetPath = `${classPath}/${pluralize.singular(k)}.mjs`;
       fs.writeFileSync(targetPath, v, { encoding: 'utf8' });
       console.log(`${path.normalize(targetPath)} write successfully.`);
     });
