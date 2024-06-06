@@ -15,7 +15,7 @@ const readFileOptions = { encoding: 'utf8', flag: 'r' };
 const interfaces = fs.readFileSync(`${__dirname}/GraphQL/_interfaces.graphql`, readFileOptions);
 
 export default async function build(dirname, entity, database, databaseSubFolder="", isImportData=false, wal=false){
-  const defaultDatabasePath = `${dirname}/../../default${databaseSubFolder? `/${databaseSubFolder}` : ''}`;
+  const defaultDatabasePath = `${dirname}/../default${databaseSubFolder? `/${databaseSubFolder}` : ''}`;
   const modelPath = path.normalize(`${dirname}/../exports/${entity}/model`);
   const exportPath = `${dirname}/../exports/${entity}`;
 
@@ -65,7 +65,7 @@ async function buildCore(GraphQL_Path, SamplePath, SQL_Path, DB_Path, classPath,
 
   try {
     if (SamplePath !== '') {
-      const samples = await import(SamplePath);
+      const samples = await import('file://'+SamplePath);
       const inserts = insert(samples.default || samples);
       db.exec(inserts);
     }
