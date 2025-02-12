@@ -14,16 +14,17 @@ import codeGen from './graphql-orm.mjs';
 const readFileOptions = { encoding: 'utf8', flag: 'r' };
 const interfaces = fs.readFileSync(`${__dirname}/GraphQL/_interfaces.graphql`, readFileOptions);
 
-export default async function build(dirname, entity, database, databaseSubFolder="", isImportData=false, wal=false){
-  const defaultDatabasePath = `${dirname}/../default${databaseSubFolder? `/${databaseSubFolder}` : ''}`;
-  const modelPath = path.normalize(`${dirname}/../exports/${entity}/model`);
-  const exportPath = `${dirname}/../exports/${entity}`;
+export default async function build(dirname, outdirname, entity, database, databaseSubFolder="", isImportData=false, wal=false){
+  const defaultDatabasePath = `${dirname}${outdirname}/default${databaseSubFolder? `/${databaseSubFolder}` : ''}`;
+  const modelPath = path.normalize(`${dirname}${outdirname}/exports/${entity}/model`);
+  const exportPath = `${dirname}${outdirname}/exports/${entity}`;
 
+  const databaseName = database.split('/').slice(-1);
   await buildCore(
     `${dirname}/${database}.graphql`,
     ((isImportData) ? `${dirname}/${database}.mjs` : ""),
-    `${exportPath}/${database}.sql`,
-    `${defaultDatabasePath}/${database}.sqlite`,
+    `${exportPath}/${databaseName}.sql`,
+    `${defaultDatabasePath}/${databaseName}.sqlite`,
     path.normalize(`${modelPath}`),
     wal
   )

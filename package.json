@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@lionrockjs/start",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The LionRockJS ORM database code generator and site structure generator",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "mkdirp": "^3.0.1",
     "ncp": "^2.0.0",
     "graphql-to-sqlite-ddl": "^2.0.4",
-    "snake-case": "^4.0.0",
+    "change-case": "^5.4.4",
     "pluralize": "^8.0.0"
   },
   "dev-dependencies": {}

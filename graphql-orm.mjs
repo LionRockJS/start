@@ -1,6 +1,6 @@
 import {getFieldType, getTypeMap} from 'graphql-to-sqlite-ddl';
 import pluralize from 'pluralize';
-import {snakeCase} from 'snake-case';
+import * as changeCase from 'change-case';
 
 pluralize.addPluralRule('person', 'persons');
 
@@ -77,7 +77,7 @@ const typeToForeignKeys = type => {
     const isBelongs = /^belongsTo/.test(name);
     const isAssoicateTo = /^associateTo/.test(name);
     if (isBelongs || isAssoicateTo) {
-      const model = snakeCase((field.type.kind === 'NonNullType') ? field.type.type.name.value : field.type.name.value);
+      const model = changeCase.snakeCase((field.type.kind === 'NonNullType') ? field.type.type.name.value : field.type.name.value);
       let fk = `${pluralize.singular(model)}_id`;
 
       // check custom foreign key rather than model_id
@@ -118,7 +118,7 @@ const typeToBelongsToMany = type => {
 };
 
 const parseType = type => {
-  const tableName = snakeCase(pluralize(type.name.value));
+  const tableName = changeCase.snakeCase(pluralize(type.name.value));
   const className = pluralize.singular(type.name.value);
   const defaultValues = typeToFields(type);
   const fieldTypes = typeToFieldTypes(type);
@@ -150,7 +150,7 @@ ${Array.from(belongsTo.keys())
     Array.from(defaultValues)
       .map(x => ((x[1] === undefined) ? `  ${x[0]} = null;` : `  ${x[0]} = ${x[1]};`)).join('\n')}
 
-  static joinTablePrefix = '${snakeCase(className)}';
+  static joinTablePrefix = '${changeCase.snakeCase(className)}';
   static tableName = '${tableName}';
 ${codeFields}${codeBelongsTo}${codeHasMany}${codeBelongsToMany}
 }
